@@ -22,6 +22,7 @@ XGB_EXTERN_C {
 #else
 #define XGB_DLL XGB_EXTERN_C
 #endif
+
 // manually define unsign long
 typedef unsigned long bst_ulong;  // NOLINT(*)
 
@@ -113,7 +114,26 @@ XGB_DLL int XGDMatrixCreateFromDataIter(
     DMatrixHandle *out);
 
 /*!
- * \brief create a matrix content from csr format
+ * \brief create a matrix content from CSR format
+ * \param indptr pointer to row headers
+ * \param indices findex
+ * \param data fvalue
+ * \param nindptr number of rows in the matix + 1
+ * \param nelem number of nonzero elements in the matrix
+ * \param num_col number of columns; when it's set to 0, then guess from data
+ * \param out created dmatrix
+ * \return 0 when success, -1 when failure happens
+ */
+XGB_DLL int XGDMatrixCreateFromCSREx(const size_t* indptr,
+                                     const unsigned* indices,
+                                     const float* data,
+                                     size_t nindptr,
+                                     size_t nelem,
+                                     size_t num_col,
+                                     DMatrixHandle* out);
+/*!
+ * \deprecated
+ * \brief create a matrix content from CSR format
  * \param indptr pointer to row headers
  * \param indices findex
  * \param data fvalue
@@ -129,6 +149,25 @@ XGB_DLL int XGDMatrixCreateFromCSR(const bst_ulong *indptr,
                                    bst_ulong nelem,
                                    DMatrixHandle *out);
 /*!
+ * \brief create a matrix content from CSC format
+ * \param col_ptr pointer to col headers
+ * \param indices findex
+ * \param data fvalue
+ * \param nindptr number of rows in the matix + 1
+ * \param nelem number of nonzero elements in the matrix
+ * \param num_row number of rows; when it's set to 0, then guess from data
+ * \param out created dmatrix
+ * \return 0 when success, -1 when failure happens
+ */
+XGB_DLL int XGDMatrixCreateFromCSCEx(const size_t* col_ptr,
+                                     const unsigned* indices,
+                                     const float* data,
+                                     size_t nindptr,
+                                     size_t nelem,
+                                     size_t num_row,
+                                     DMatrixHandle* out);
+/*!
+ * \deprecated
  * \brief create a matrix content from CSC format
  * \param col_ptr pointer to col headers
  * \param indices findex
